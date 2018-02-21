@@ -1,0 +1,3 @@
+[config]
+PROJECT=src
+SCM_POST_DEPLOYMENT_ACTIONS_PATH=deployment
