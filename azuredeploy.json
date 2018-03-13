@@ -14,10 +14,12 @@
       }
     },
     "repoUrl": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "https://github.com/anthonychu/azure-functions-openalpr"
     },
     "branch": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "master"
     }
   },
   "variables": {
