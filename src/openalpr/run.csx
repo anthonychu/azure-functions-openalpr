@@ -2,12 +2,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 static string webRoot = @"D:\home\site\wwwroot";
 static string tempFolder = $@"{webRoot}\temp";
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
+    var country = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "country", true) == 0)
+        .Value ?? "us";
+    var countrySafe = Regex.Replace(country, @"\W", "");
+
     if (!Directory.Exists(tempFolder))
     {
         Directory.CreateDirectory(tempFolder);
@@ -24,7 +30,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     var processStartInfo = new ProcessStartInfo
     {
         FileName = $@"{webRoot}\openalpr_64\alpr.exe",
-        Arguments = $@"-c us --json {filePath}",
+        Arguments = $@"-c {countrySafe} --json {filePath}",
         RedirectStandardOutput = true,
         UseShellExecute = false,
         WorkingDirectory = $@"{webRoot}\openalpr_64"

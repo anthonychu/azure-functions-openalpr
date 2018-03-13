@@ -17,9 +17,13 @@
   
   function uploadFile(input) {
     if (!input.files[0]) return
+
+    var countrySelect = document.getElementById('country')
+    var country = countrySelect.options[countrySelect.selectedIndex].value
+
     document.body.classList.add('waiting')
     document.getElementById('result').innerHTML = ''
-    axios.post('/api/openalpr', input.files[0], config)
+    axios.post('/api/openalpr?country=' + country, input.files[0], config)
       .then(function(response) {
         const result = response.data
         document.body.classList.remove('waiting')
@@ -46,6 +50,14 @@
     <div class="container">
       <div id="uploader">
         <h3>Photo to detect license plate(s)</h3>
+        <select id="country">
+          <option value="au">Australia</option>
+          <option value="eu">Europe</option>
+          <option value="kr">Korea</option>
+          <option value="mx">Mexico</option>
+          <option value="sg">Singapore</option>
+          <option value="us" selected>US</option>
+        </select><br />
         <input id="image" type="file" class="form-control" accept="image/jpeg" onchange="uploadFile(this)" />
       </div>
       <p id="waiting">Looking for license plate(s)...</p>
