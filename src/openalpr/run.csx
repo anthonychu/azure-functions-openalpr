@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -5,7 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 static string webRoot = @"D:\home\site\wwwroot";
-static string tempFolder = $@"{webRoot}\temp";
+// Point to d:\local\temp (local disk), avoid going over the network to storage
+static string tempFolder = Environment.GetEnvironmentVariable("TEMP");
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
